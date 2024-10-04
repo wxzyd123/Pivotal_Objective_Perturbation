@@ -38,14 +38,14 @@ def main():
     parser.add_argument("--dataset_name", type=str, default="OneSpeaker", help="The selected dataset to be protected.")
     parser.add_argument("--config_path", type=str, default="configs/onespeaker_vits.json", help="The configuration path for building model.")
     parser.add_argument("--pretrained_path", type=str, default="checkpoints/pretrained_ljs.pth", help="The checkpoint path of the pre-trained model.")
-    parser.add_argument("--is_fixed", type=bool, default=True, help="Training at the fixed patch or not.")
+    parser.add_argument("--is_fixed", type=str, default="True", help="Training at the fixed patch or not.")
     parser.add_argument("--noise_path", type=str, default="checkpoints/noises/VITS_POP_OneSpeaker.noise", help="The generated noise path.")
 
     args = parser.parse_args()
     device = args.device
     model_name = args.model_name
     dataset_name = args.dataset_name
-    is_fixed = bool(args.is_fixed)
+    is_fixed = True if args.is_fixed == "True" else False
     assert torch.cuda.is_available(), "CPU training is not allowed."
 
     config_path = args.config_path
