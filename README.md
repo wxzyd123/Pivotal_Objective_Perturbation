@@ -1,6 +1,6 @@
 # Pivatoal Objective Perturbation
 
-The is the source code of the paper "Mitigating Unauthorized Speech Synthesis for Voice Protection" in CCS-LAMPS 2024. We propose a voice protection technique against training procedure via pivotal objective perturbation (POP) which can disrupt the speech synthesis after effective finetuning on advanced models.
+This is the source code of the "Mitigating Unauthorized Speech Synthesis for Voice Protection" paper in the CCS Workshop (LAMPS 2024). We propose a voice protection technique against training procedure via pivotal objective perturbation (POP) which can disrupt the speech synthesis after effective finetuning on advanced models.
 
 
 
@@ -24,21 +24,21 @@ cd vits/monotonic_align
 python setup.py build_ext --inplace
 ```
 
-You can download the pre-trained checkpoint on LJSpeech dataset from [here](https://drive.google.com/drive/folders/1ksarh-cJf3F5eKJjLVWY0X1j1qsQqiS2) and move it to "checkpoints/pretrained_ljs.pth".
+You can download the pre-trained checkpoint on the LJSpeech dataset from [here](https://drive.google.com/drive/folders/1ksarh-cJf3F5eKJjLVWY0X1j1qsQqiS2) and move it to "checkpoints/pretrained_ljs.pth".
 
 
 
 ## 1. Dataset
 
-In our paper, we conduct our experiments on two multi-speaker dataset ([LibriTTS](https://www.openslr.org/resources/60/train-clean-100.tar.gz) and [CMU ARCTIC](http://festvox.org/cmu_arctic/packed/)) and one speaker dataset (detailed in paper's Section 5.6). We follow [VITS](https://github.com/jaywalnut310/vits) to process the dataset.
+In our paper, we conduct our experiments on two multi-speaker datasets ([LibriTTS](https://www.openslr.org/resources/60/train-clean-100.tar.gz) and [CMU ARCTIC](http://festvox.org/cmu_arctic/packed/)) and one speaker dataset (detailed in paper's Section 5.6). We follow [VITS](https://github.com/jaywalnut310/vits) to process the dataset.
 
-We should build file list at first. Each row of the dataset file list represents an audio data, and its format should be represented as follows:
+We should build a file list first. Each row of the dataset file list represents audio data, and its format should be represented as follows:
 
 ```bash
 audio_path|speaker_id|text
 ```
 
-And the structure of `audio_path` should be `data/{speaker}`, where `{speaker}` represents the speaker name or ID. Subsequently, you can use the following command to process (g2p) your own dataset.
+And the structure of `audio_path` should be `data/{speaker}`, where `{speaker}` represents the speaker name or ID. After that, you can use the following command to process (g2p) your dataset.
 
 ```bash
 python text_preprocess.py --text_index 2 --filelists <your file list>
@@ -56,16 +56,16 @@ python protect.py --config_path <your config path> --protected_mode POP
 
 Here are some basic arguments that you can set:
 
-- `--device`: The training device which should be GPU or CPU. Default: "cuda".
+- `--device`: The training device should be GPU or CPU. Default: "cuda".
 - `--model_name`: The selected model. Default: "VITS". (You can choose other models such as MB-iSTFT-VITS and GlowTTS).
 - `--dataset_name`: The selected dataset pending protection. Default: "OneSpeaker". (You can choose other datasets such as LibriTTS and CMU ARCTIC).
-- `--config_path`: The configuration path for building model. Default: "configs/onespeaker_vits.json".
+- `--config_path`: The configuration path for building the model. Default: "configs/onespeaker_vits.json".
 - `--pretrained_path`: The checkpoint path of the pre-trained model. Default: "checkpoints/pretrained_ljs.pth".
 - `--epsilon`: The protective radius of the embedded perturbation by $\ell_p$ norm. Default: 8/255.
 - `--iterations`: Running iterations. Default: 200.
 - `--mode`: The corresponding four protection modes in this paper. Default: "POP".
 
-We have provided four protective mode ["POP", "EM", "RSP", "ESP"]. In this context, POP and EM involve perturbing the patche at fixed positions within an audio file, while RSP and ESP involve perturbing the entire audio segment. Therefore, if you wish to use our method for comparison and apply perturbations across the entire audio segment, you can utilize the ESP mode.
+We have provided four protective modes ["POP", "EM", "RSP", "ESP"]. In this context, POP and EM involve perturbing the patches at fixed positions within an audio file, while RSP and ESP involve perturbing the entire audio segment. Therefore, if you wish to use our method for comparison and apply perturbations across the entire audio segment, you can utilize the ESP mode.
 
 Running this script will generate perturbations for each audio sample, saving them in batches to the directory `checkpoints/noises/`.
 
@@ -79,9 +79,9 @@ Running this script will generate perturbations for each audio sample, saving th
 python train.py --config_path <your config path> --dataset_name LibriTTS --is_fixed True
 ```
 
-The argument `is_fixed` represents whether training of the audio patches at the fixed positions. We have discussed it in paper's Section 5.5.
+The argument `is_fixed` represents whether training of the audio patches at the fixed positions. We have discussed it in the paper's Section 5.5.
 
-2. Train on protected samples and test the anti-cloing capability.
+2. Train on protected samples and test the anti-cloning capability.
 
 ```bash
 python protected_train.py --config_path <your config path> --dataset_name LibriTTS --noise_path <noise path> 
