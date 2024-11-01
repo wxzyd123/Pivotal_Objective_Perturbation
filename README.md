@@ -1,6 +1,6 @@
 # Pivotal Objective Perturbation
 
-This is the source code of the "Mitigating Unauthorized Speech Synthesis for Voice Protection" paper in the CCS Workshop (LAMPS 2024). We propose a voice protection technique against training procedure via pivotal objective perturbation (POP) which can disrupt the speech synthesis after effective finetuning on advanced models.
+This is the source code of the "[Mitigating Unauthorized Speech Synthesis for Voice Protection](https://arxiv.org/abs/2410.20742)" paper in the CCS Workshop (LAMPS 2024). We propose a voice protection technique against training procedure via pivotal objective perturbation (POP) which can disrupt the speech synthesis after effective finetuning on advanced models.
 
 
 
